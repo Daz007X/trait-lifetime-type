@@ -12,14 +12,14 @@ struct Car;
 
 // Implement trait Vehicle สำหรับ Car
 impl Vehicle for Car {
-    type Fuel<'a> = &'a str; // Fuel เป็น &str
-    type Speed<'a> = &'a str; // Speed เป็น &str
+    type Fuel<'f> = &'f str; // Fuel เป็น &str
+    type Speed<'s> = &'s str; // Speed เป็น &str
 
-    fn refuel<'a>(&self, fuel: Self::Fuel<'a>) -> String {
+    fn refuel<'f>(&self, fuel: Self::Fuel<'f>) -> String {
         format!("Car refueled with {} fuel type", fuel)
     }
 
-    fn get_speed<'a>(&self) -> Self::Speed<'a> {
+    fn get_speed<'s>(&self) -> Self::Speed<'s> {
         "120 km/h"
     }
 }
