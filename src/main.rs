@@ -1,65 +1,34 @@
+use std::fmt::{Debug, Display};
 
-trait Vehicle {
-    type Fuel<'f> ;
-    type Speed<'s> ;
+trait Example {
+    type A;
+    type B<T> where T: ToString + Display + Debug;
+    type C<'a>;
+    type D<'a> 
+    where 
+        Self:'a;  
+    type E<'a, T> 
+        where T: ToString + Display + Debug + 'a;
+    type F<'a, T> where 
+        T: ToString + Display + Debug + 'a,
+        Self: 'a;
 
-    fn refuel<'f>(&self, fuel: Self::Fuel<'f>) -> String;
-    fn get_speed<'s>(&self) -> Self::Speed<'s>;
-}
 
-// กำหนด struct Car
-struct Car;
+    fn one_a(&self, a1: Self::A) -> Self::A;
 
-// Implement trait Vehicle สำหรับ Car
-impl Vehicle for Car {
-    type Fuel<'f> = &'f str; // Fuel เป็น &str
-    type Speed<'s> = &'s str; // Speed เป็น &str
+    fn one_b<Tb>(&self, b1: Self::B<Tb>) -> Self::B<Tb>
+    where
+        Tb: ToString + Display + Debug;
 
-    fn refuel<'f>(&self, fuel: Self::Fuel<'f>) -> String {
-        format!("Car refueled with {} fuel type", fuel)
-    }
+    fn one_c<'ac>(&self, c1: Self::C<'ac>) -> Self::C<'ac>;
 
-    fn get_speed<'s>(&self) -> Self::Speed<'s> {
-        "120 km/h"
-    }
-}
+    fn one_d<'ad>(&'ad self, d1: Self::D<'ad>) -> Self::D<'ad>;
 
-struct Bicycle;
+    fn one_e<'ae, Te>(&self, e1: Self::E<'ae, Te>) -> Self::E<'ae, Te>
+    where
+        Te: ToString + Display + Debug + 'ae;
 
-// Implement trait Vehicle สำหรับ Bicycle
-impl Vehicle for Bicycle {
-    type Fuel<'f> = &'f str; // Fuel เป็น &str
-    type Speed<'s> = &'s str; // Speed เป็น &str
-
-    fn refuel<'f>(&self, fuel: Self::Fuel<'f>) -> String {
-        format!("Bicycle rider ate {}", fuel)
-    }
-
-    fn get_speed<'s>(&self) -> Self::Speed<'s> {
-        "25 km/h"
-    }
-}
-
-// ฟังก์ชันที่รับ Vehicle และใช้งาน associated type
-fn use_vehicle<'f,'s, V,F,S>(vehicle: V, fuel_amount: F) -> (String, S)
-where
-    V: Vehicle<Fuel<'f>=F,Speed<'s>=S> + 'f+'s,
-{
-    let refuel_result = vehicle.refuel(fuel_amount);
-    let speed = vehicle.get_speed();
-    (refuel_result, speed)
-}
-
-fn main() {
-    // สร้าง instance ของ Car และ Bicycle
-    let car = Car;
-    let bicycle = Bicycle;
-
-    // เรียกใช้ฟังก์ชันกับ Car
-    let (car_refuel, car_speed) = use_vehicle(car, "50.0");
-    println!("Car: {}, Speed: {} km/h", car_refuel, car_speed);
-
-    // เรียกใช้ฟังก์ชันกับ Bicycle
-    let (bicycle_refuel, bicycle_speed) = use_vehicle(bicycle, "500");
-    println!("Bicycle: {}, Speed: {} km/h", bicycle_refuel, bicycle_speed);
+    fn one_f<'af, Tf>(&'af self, d1: Self::F<'af, Tf>) -> Self::F<'af, Tf>
+    where
+        Tf: ToString + Display + Debug + 'af;
 }
