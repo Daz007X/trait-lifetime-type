@@ -1,7 +1,7 @@
 
 trait Vehicle {
-    type Fuel<'f> where Self: 'f;
-    type Speed<'s> where Self: 's;
+    type Fuel<'f> ;
+    type Speed<'s> ;
 
     fn refuel<'f>(&self, fuel: Self::Fuel<'f>) -> String;
     fn get_speed<'s>(&self) -> Self::Speed<'s>;
