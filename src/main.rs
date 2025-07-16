@@ -176,7 +176,7 @@ fn use_ex<'c, 'd, 'e, 'f,'ow, Exam, Af, Bf, Cf, Df, Ef, Ff, Gf, Tb, Te, Tf, Tg>(
     g: Gf,
 ) where
     Exam: Example<A = Af, B<Tb> = Bf, C<'c> = Cf, D<'d> = Df, E<'e, Te> = Ef, F<'f, Tf> = Ff, G<Tg> = Gf> + 'c + 'd +'e +'f,
-    Tb: ToString + Display + Debug + Copy,
+    Tb: ToString + Display + Debug ,
     Te: ToString + Display + Debug + 'e,
     Tf: ToString + Display + Debug + 'f,
     Af: Debug,
