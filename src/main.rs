@@ -165,38 +165,83 @@ impl Example for MyEnum {
 }
 
 // Example usage of the use_ex function
-fn use_ex<'c, 'd, 'e, 'f, Exam, Af, Bf, Cf, Df, Ef, Ff, Gf, Tb, Te, Tf,Tg>()
-where
-    Exam: Example<A=Af, B<Tb>=Bf, C<'c>=Cf, D<'d>=Df, E<'e, Te>=Ef, F<'f, Tf>=Ff,G<Tg>=Gf> + 'c + 'd + 'e + 'f,
-    Tb: ToString + Display + Debug,
+fn use_ex<'c, 'd, 'e, 'f,'ow, Exam, Af, Bf, Cf, Df, Ef, Ff, Gf, Tb, Te, Tf, Tg>(
+    exam :&'ow Exam,
+    a: Af,
+    b: Bf,
+    c: Cf,
+    d: Df,
+    e: Ef,
+    f: Ff,
+    g: Gf,
+) where
+    Exam: Example<A = Af, B<Tb> = Bf, C<'c> = Cf, D<'d> = Df, E<'e, Te> = Ef, F<'f, Tf> = Ff, G<Tg> = Gf> + 'c + 'd +'e +'f,
+    Tb: ToString + Display + Debug + Copy,
     Te: ToString + Display + Debug + 'e,
     Tf: ToString + Display + Debug + 'f,
+    Af: Debug,
+    Bf: Debug,
+    Cf: Debug,
+    Df: Debug,
+    Ef: Debug,
+    Ff: Debug,
+    Gf: Debug,
+    'ow: 'd,
+    'ow: 'f,
 {
-    todo!();
+    // Using one_a with type A
+    let a_result = exam.one_a(a);
+    println!("one_a result: {:?}", a_result);
+    
+    // Using one_b with type B<Tb>
+    let b_result = exam.one_b::<Tb>(b);
+    println!("one_b result: {:?}", b_result);
+    
+    // Using one_c with type C<'c>
+    let c_result = exam.one_c::<'c>(c);
+    println!("one_c result: {:?}", c_result);
+    
+    // Using one_d with type D<'d>
+    let d_result = exam.one_d::<'d>(d);
+    println!("one_d result: {:?}", d_result);
+    
+    // Using one_e with type E<'e, Te>
+    let e_result = exam.one_e::<'e,Te>(e);
+    println!("one_e result: {:?}", e_result);
+    
+    // Using one_f with type F<'f, Tf>
+    let f_result = exam.one_f::<'f,Tf>(f);
+    println!("one_f result: {:?}", f_result);
+    
+    // Using one_g with type G<Tg>
+    let g_result = exam.one_g::<Tg>(g);
+    println!("one_g result: {:?}", g_result);
 }
 
 fn main() {
     // Example usage with MyStruct
     let my_struct = MyStruct { value: 42 };
-    let a_result = my_struct.one_a(10);
-    let b_result = my_struct.one_b::<i32>(5);
-    let c_result = my_struct.one_c("hello");
-    let d_result = my_struct.one_d(&my_struct.value);
-    let e_result = my_struct.one_e::<i32>(&5);
-    let f_result = my_struct.one_f((10, &my_struct.value));
-    let g_result = my_struct.one_g::<i32>(10);
-    println!("MyStruct results: a={:?}, b={:?}, c={:?}, d={:?}, e={:?}, f={:?},g={}", 
-             a_result, b_result, c_result, d_result, e_result, f_result,g_result);
+    use_ex(
+        &my_struct,
+        10,                      // Af (i32)
+        5,                       // Bf (i32)
+        "hello",                 // Cf (&str)
+        &42,                     // Df (&i32)
+        &5,                      // Ef (&i32)
+        (10, &42),              // Ff ((i32, &i32))
+        10,                      // Gf (i32)
+    );
 
     // Example usage with MyEnum
     let my_enum = MyEnum::Number(100);
-    let a_result = my_enum.one_a(String::from("test"));
-    let b_result = my_enum.one_b(vec![1, 2, 3]);
-    let c_result = my_enum.one_c("world");
-    let d_result = my_enum.one_d(&my_enum);
-    let e_result = my_enum.one_e(&[1, 2, 3]);
-    let f_result = my_enum.one_f(Some(42));
-    let g_result = my_enum.one_g(10);
-    println!("MyEnum results: a={:?}, b={:?}, c={:?}, d={:?}, e={:?}, f={:?},g={}", 
-             a_result, b_result, c_result, d_result, e_result, f_result,g_result);
+    use_ex(
+        &my_enum,
+        String::from("test"),    // Af (String)
+        vec![1, 2, 3],          // Bf (Vec<i32>)
+        "world",                // Cf (&str)
+        &MyEnum::Number(100),   // Df (&MyEnum)
+        &[1, 2, 3],            // Ef (&[i32])
+        Some(42),               // Ff (Option<i32>)
+        10,                     // Gf (i32)
+    );
 }
