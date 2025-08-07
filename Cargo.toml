@@ -1,6 +1,14 @@
-[package]
-name = "trait-lifetime-type"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+members = [
+    "src/trait_example", 
+    "src/trait_example_old", 
+    "src/trait_fuel_example", 
+    "src/trait_holder", 
+    "src/trait_logger"
+]
 
-[dependencies]
+# ใช้ dependency resolver เวอร์ชัน 2 (แนะนำสำหรับ edition 2021+)
+resolver = "2"
+
+# กำหนดให้ ch_01_hello_world เป็น default package
+# ที่จะรันเมื่อใช้ cargo run จาก workspace root

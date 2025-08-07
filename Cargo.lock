@@ -3,5 +3,21 @@
 version = 4
 
 [[package]]
-name = "trait-lifetime-type"
+name = "trait_example"
+version = "0.1.0"
+
+[[package]]
+name = "trait_example_old"
+version = "0.1.0"
+
+[[package]]
+name = "trait_fuel_example"
+version = "0.1.0"
+
+[[package]]
+name = "trait_holder"
+version = "0.1.0"
+
+[[package]]
+name = "trait_logger"
 version = "0.1.0"

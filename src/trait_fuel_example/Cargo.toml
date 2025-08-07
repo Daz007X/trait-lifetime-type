@@ -1,0 +1,7 @@
+[package]
+name = "trait_fuel_example"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
